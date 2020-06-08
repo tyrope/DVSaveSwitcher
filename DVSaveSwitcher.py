@@ -89,7 +89,7 @@ class SaveSwitcher():
         while True:
             sel = input("Select save (leave blank to cancel): ")
             if(len(sel) == 0):
-                return
+                return self.MainMenu()
             confirm = input('Is %s correct? [Y]es, [N]o: ' % listOfFiles[int(sel)]).lower()
             if(confirm in ('yes','y')):
                 break
