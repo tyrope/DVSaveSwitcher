@@ -1,1 +1,8 @@
+# Building assets.
+__pycache__
+build
+dist
+DVSaveSwitcher.spec
+
+# Config file
 dvSaveSwitcher.cfg
