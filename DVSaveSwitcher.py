@@ -82,17 +82,13 @@ class SaveSwitcher():
         for i in range(0, len(listOfFiles)):
             print("%d)%s" % (i, listOfFiles[i]))
 
-        # Special case of RepeatInput
-        while True:
-            sel = input("Select save (leave blank to cancel): ")
-            if(len(sel) == 0):
-                return self.MainMenu()
-            confirm = input('Is %s correct? [Y]es, [N]o: ' % listOfFiles[int(sel)]).lower()
-            if(confirm in ('yes','y')):
-                break
+        sel = self.RepeatNumericalSelection('Select save (leave blank to cancel): ', listOfFiles)
+        if(len(sel)==0):
+            print('Cancelled')
+            return self.MainMenu()
 
         # Load save.
-        copyfrom = os.path.join(config.saveLocation, listOfFiles[int(sel)])
+        copyfrom = os.path.join(config.saveLocation, sel)
         copyto = os.path.join(config.saveLocation,'savegame')
         shutil.copy2(copyfrom, copyto)
         print('Back-up restored.')
@@ -103,6 +99,24 @@ class SaveSwitcher():
         listOfFiles.remove('ControllerAnchors.json')
         listOfFiles.remove('GamePreferences.ini')
         return listOfFiles
+
+    def RepeatNumericalSelection(self, query, selections):
+        while True:
+            selstr = input(query)
+            if(len(selstr)==0):
+                return ''
+            try:
+                sel = int(selstr)
+            except ValueError as e:
+                print('Please enter a number')
+                continue
+            if(sel >= len(selections)):
+                print('Selection out of range.')
+                continue
+            confirm = input('Is %s correct? [Y]es, [N]o: ' % selections[int(sel)]).lower()
+            if(confirm in ('yes','y')):
+                return selections[int(sel)]
+
 def RepeatInput(query, blankCancels=False):
     while True:
         ret = input(query)
