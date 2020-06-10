@@ -129,5 +129,8 @@ if __name__ == '__main__':
         with open('dvSaveSwitcher.cfg') as f:
             config.load(f.read())
     print('Configuration complete.')
+
+    # TODO Check if Derail Valley is running.
+    # If it is, warn the user, maybe even prevent making changes?
     SaveSwitcher()
 

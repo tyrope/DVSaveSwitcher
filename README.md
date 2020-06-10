@@ -5,6 +5,7 @@ This is a simple utility program that you can run to manually create and restore
 Python 3
 
 ## How to use
-On windows, run DVSaveSwitcher.bat  
-On Linux, ./DVSaveSwitcher.py  
-On Mac.. no idea.  
+On windows, run DVSaveSwitcher.exe  
+On Linux, download the source and run DVSaveSwitcher.py  
+On Mac.. no idea. Probably the same as Linux?
+
