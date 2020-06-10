@@ -1,7 +1,6 @@
 import json, os, shutil
 
 class Config(object):
-
     def __init__(self):
         self.saveLocation = ''
 
@@ -76,10 +75,8 @@ class SaveSwitcher():
         print('This overrides the current active save file, back up first!\n')
 
         # Prepare the list.
-        listOfFiles = [f for f in os.listdir(config.saveLocation) if os.path.isfile(os.path.join(config.saveLocation, f))]
+        listOfFiles = self.GetListOfFiles()
         listOfFiles.remove('savegame')
-        listOfFiles.remove('ControllerAnchors.json')
-        listOfFiles.remove('GamePreferences.ini')
 
         # List it to the user
         for i in range(0, len(listOfFiles)):
@@ -101,6 +98,11 @@ class SaveSwitcher():
         print('Back-up restored.')
         self.MainMenu()
 
+    def GetListOfFiles(self):
+        listOfFiles = [f for f in os.listdir(config.saveLocation) if os.path.isfile(os.path.join(config.saveLocation, f))]
+        listOfFiles.remove('ControllerAnchors.json')
+        listOfFiles.remove('GamePreferences.ini')
+        return listOfFiles
 def RepeatInput(query, blankCancels=False):
     while True:
         ret = input(query)
