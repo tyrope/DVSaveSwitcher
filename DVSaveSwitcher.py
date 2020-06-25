@@ -42,11 +42,11 @@ class SaveSwitcher():
         while True:
             choice = input('Input: ').upper()
             if(choice in ('B','BACK-UP', 'BACKUP')):
-                return self.CopyActive()
+                self.CopyActive()
             elif(choice in ('L', 'LOAD')):
-                return self.LoadInactive()
+                self.LoadInactive()
             elif(choice in ('D', 'DELETE')):
-                return self.DeleteSave()
+                self.DeleteSave()
             elif(choice in ('E', 'EXIT')):
                 exit()
             else:
@@ -56,7 +56,7 @@ class SaveSwitcher():
         print('\n-- Create Back-up --')
         name = RepeatInput('Back-up name (leave blank to cancel): ', blankCancels=True)
         if(len(name) == 0):
-            return self.MainMenu()
+            return
 
         copyfrom = os.path.join(config.saveLocation, 'savegame')
         copyto = os.path.join(config.saveLocation, name)
@@ -69,7 +69,6 @@ class SaveSwitcher():
 
         newSave = shutil.copy2(copyfrom, copyto)
         print('Created back-up: %s' % newSave)
-        self.MainMenu()
 
     def LoadInactive(self):
         print('\n-- Load Back-up --')
@@ -87,14 +86,13 @@ class SaveSwitcher():
         sel = self.RepeatNumericalSelection('Select save (leave blank to cancel): ', listOfFiles)
         if(len(sel)==0):
             print('Cancelled')
-            return self.MainMenu()
+            return
 
         # Load save.
         copyfrom = os.path.join(config.saveLocation, sel)
         copyto = os.path.join(config.saveLocation,'savegame')
         shutil.copy2(copyfrom, copyto)
         print('Back-up restored.')
-        self.MainMenu()
 
     def DeleteSave(self):
         print('\n-- Delete Save --')
@@ -111,7 +109,7 @@ class SaveSwitcher():
         # User selection
         save = self.RepeatNumericalSelection('Select save (leave blank to cancel): ', self.GetListOfFiles())
         if(save == ''):
-            return self.MainMenu()
+            return
 
         # User confirmation
         confirm = input('Are you SURE you want to irreversably DELETE %s? [Y]es, [N]o' % save).lower()
@@ -122,7 +120,6 @@ class SaveSwitcher():
         # Deletion
         os.remove(os.path.join(config.saveLocation, save))
         print('Save deleted.')
-        self.MainMenu()
 
     def GetListOfFiles(self):
         listOfFiles = [f for f in os.listdir(config.saveLocation) if os.path.isfile(os.path.join(config.saveLocation, f))]
