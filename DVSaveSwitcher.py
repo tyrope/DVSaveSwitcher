@@ -39,18 +39,22 @@ class SaveSwitcher():
         print('[L]oad backed up save')
         print('[D]elete save')
         print('[E]xit program')
-        while True:
-            choice = input('Input: ').upper()
-            if(choice in ('B','BACK-UP', 'BACKUP')):
-                self.CopyActive()
-            elif(choice in ('L', 'LOAD')):
-                self.LoadInactive()
-            elif(choice in ('D', 'DELETE')):
-                self.DeleteSave()
-            elif(choice in ('E', 'EXIT')):
-                exit()
-            else:
-                print('Invalid input.')
+        try:
+            while True:
+                choice = input('Input: ').upper()
+                if(choice in ('B','BACK-UP', 'BACKUP')):
+                    self.CopyActive()
+                elif(choice in ('L', 'LOAD')):
+                    self.LoadInactive()
+                elif(choice in ('D', 'DELETE')):
+                    self.DeleteSave()
+                elif(choice in ('E', 'EXIT')):
+                    exit()
+                else:
+                    print('Invalid input.')
+        except Exception as err:
+            print('Uh oh! The program broke somewhere generic. Please report this bug!')
+            print("Technical details: {0}".format(err))
 
     def CopyActive(self):
         print('\n-- Create Back-up --')
@@ -67,7 +71,16 @@ class SaveSwitcher():
             if(confirm not in ('yes','y')):
                 return self.CopyActive()
 
-        newSave = shutil.copy2(copyfrom, copyto)
+        try:
+            newSave = shutil.copy2(copyfrom, copyto)
+        except PermissionError:
+            print('Uh oh! We tried to copy your back-up but encountered a permission issue.')
+            print('Run this program as an administrator and try again.')
+            return
+        except Exception as err:
+            print('Uh oh! The program broke while trying to copy a file. Please report this bug!')
+            print("Technical details: {0}".format(err))
+            return
         print('Created back-up: %s' % newSave)
 
     def LoadInactive(self):
@@ -91,7 +104,16 @@ class SaveSwitcher():
         # Load save.
         copyfrom = os.path.join(config.saveLocation, sel)
         copyto = os.path.join(config.saveLocation,'savegame')
-        shutil.copy2(copyfrom, copyto)
+        try:
+            shutil.copy2(copyfrom, copyto)
+        except PermissionError:
+            print('Uh oh! We tried to copy your back-up but encountered a permission issue.')
+            print('Run this program as an administrator and try again.')
+            return
+        except Exception as err:
+            print('Uh oh! The program broke while trying to copy a file. Please report this bug!')
+            print("Technical details: {0}".format(err))
+            return
         print('Back-up restored.')
 
     def DeleteSave(self):
@@ -118,7 +140,16 @@ class SaveSwitcher():
             return self.DeleteSave()
 
         # Deletion
-        os.remove(os.path.join(config.saveLocation, save))
+        try:
+            os.remove(os.path.join(config.saveLocation, save))
+        except PermissionError:
+            print('Uh oh! We tried to delete a save but encountered a permission issue.')
+            print('Run this program as an administrator and try again.')
+            return
+        except Exception as err:
+            print('Uh oh! The program broke while trying to copy a file. Please report this bug!')
+            print("Technical details: {0}".format(err))
+            return
         print('Save deleted.')
 
     def GetListOfFiles(self):
