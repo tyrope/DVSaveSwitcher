@@ -1,4 +1,4 @@
-import json, os, shutil
+import json, os, shutil, subprocess
 
 class Config(object):
     def __init__(self):
@@ -191,6 +191,15 @@ def RepeatInput(query, blankCancels=False):
         if(confirm in ('yes','y')):
             return ret
 
+def process_exists(process_name):
+    call = 'TASKLIST','/FI','imagename eq %s' % process_name
+    # use buildin check_output right away
+    output = subprocess.check_output(call).decode()
+    # check in last line for process name
+    last_line = output.strip().split('\r\n')[-1]
+    # because Fail messages could be translated
+    return last_line.lower().startswith(process_name.lower())
+
 if __name__ == '__main__':
     print('----------------------------------------')
     print('--  Derail Valley Savegame Switcher   --')
@@ -208,7 +217,16 @@ if __name__ == '__main__':
             config.load(f.read())
     print('Configuration complete.')
 
-    # TODO Check if Derail Valley is running.
-    # If it is, warn the user, maybe even prevent making changes?
+    # Check if Derail Valley is running.
+    # If it is, require the user to actively awknowledge this might break saves.
+    msg = "Derail Valley is running.\n"
+    msg += "Changing savegames at this time might break your saves.\n"
+    msg += "Continue at your own risk."
+    while process_exists('derailValley.exe'):
+        print(msg)
+        if(input("Type \"Confirm\" or close the game to continue: ") == 'Confirm'):
+            break
+        else:
+            continue
     SaveSwitcher()
 
