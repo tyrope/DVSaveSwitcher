@@ -91,7 +91,8 @@ class SaveSwitcher():
 
         # Prepare the list.
         listOfFiles = self.GetListOfFiles()
-        listOfFiles.remove('savegame')
+        if 'savegame' in listOfFiles:
+            listOfFiles.remove('savegame')
 
         # List it to the user
         for i in range(0, len(listOfFiles)):
@@ -157,8 +158,10 @@ class SaveSwitcher():
 
     def GetListOfFiles(self):
         listOfFiles = [f for f in os.listdir(config.saveLocation) if os.path.isfile(os.path.join(config.saveLocation, f))]
-        listOfFiles.remove('ControllerAnchors.json')
-        listOfFiles.remove('GamePreferences.ini')
+        if 'ControllerAnchors.json' in listOfFiles:
+            listOfFiles.remove('ControllerAnchors.json')
+        if 'GamePreferences.ini' in listOfFiles:
+            listOfFiles.remove('GamePreferences.ini')
         return listOfFiles
 
     def RepeatNumericalSelection(self, query, selections):
