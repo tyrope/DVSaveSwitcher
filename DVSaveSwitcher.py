@@ -194,7 +194,7 @@ def RepeatInput(query, blankCancels=False):
 def process_exists(process_name):
     call = 'TASKLIST','/FI','imagename eq %s' % process_name
     # use buildin check_output right away
-    output = subprocess.check_output(call).decode()
+    output = subprocess.check_output(call).decode(errors="ignore")
     # check in last line for process name
     last_line = output.strip().split('\r\n')[-1]
     # because Fail messages could be translated
