@@ -201,11 +201,11 @@ def process_exists(process_name):
     return last_line.lower().startswith(process_name.lower())
 
 if __name__ == '__main__':
-    print('----------------------------------------')
-    print('--  Derail Valley Savegame Switcher   --')
-    print('-- (c)2020 Dimitri "Tyrope" Molenaars --')
-    print('--  See LICENSE for more information  --')
-    print('----------------------------------------')
+    print('---------------------------------------------')
+    print('-- Derail Valley Savegame Switcher v1.0.6  --')
+    print('-- (c)2020-2021 Dimitri "Tyrope" Molenaars --')
+    print('--     See LICENSE for more information    --')
+    print('---------------------------------------------')
     print('Loading configuration...')
     global config
     config = Config()
