@@ -1,4 +1,4 @@
-import json, os, shutil, subprocess
+import json, os, platform, shutil, subprocess
 
 class Config(object):
     def __init__(self):
@@ -217,16 +217,24 @@ if __name__ == '__main__':
             config.load(f.read())
     print('Configuration complete.')
 
-    # Check if Derail Valley is running.
-    # If it is, require the user to actively awknowledge this might break saves.
-    msg = "Derail Valley is running.\n"
-    msg += "Changing savegames at this time might break your saves.\n"
-    msg += "Continue at your own risk."
-    while process_exists('derailValley.exe'):
+    # TODO Apparently the "is the game running" check only works on Windows.
+    if platform.system() == 'Windows':
+        # Check if Derail Valley is running.
+        # If it is, require the user to actively awknowledge this might break saves.
+        msg = "Derail Valley is running.\n"
+        msg += "Changing savegames at this time might break your saves.\n"
+        msg += "Continue at your own risk."
+        while process_exists('derailValley.exe'):
+            print(msg)
+            if(input("Type \"Confirm\" or close the game to continue: ") == 'Confirm'):
+                break
+            else:
+                continue
+    else:
+        # We're not on Windows.
+        msg = "Changing savegames while Derail Valley is running might break your saves."
+        msg += "Please ensure the game is not running."
         print(msg)
-        if(input("Type \"Confirm\" or close the game to continue: ") == 'Confirm'):
-            break
-        else:
-            continue
+        input("Press enter to continue at your own risk.")
     SaveSwitcher()
 
