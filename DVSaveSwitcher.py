@@ -202,8 +202,8 @@ def process_exists(process_name):
 
 if __name__ == '__main__':
     print('---------------------------------------------')
-    print('-- Derail Valley Savegame Switcher v1.0.6  --')
-    print('-- (c)2020-2021 Dimitri "Tyrope" Molenaars --')
+    print('-- Derail Valley Savegame Switcher v1.0.8  --')
+    print('-- (c)2020-2022 Dimitri "Tyrope" Molenaars --')
     print('--     See LICENSE for more information    --')
     print('---------------------------------------------')
     print('Loading configuration...')
@@ -217,7 +217,6 @@ if __name__ == '__main__':
             config.load(f.read())
     print('Configuration complete.')
 
-    # TODO Apparently the "is the game running" check only works on Windows.
     if platform.system() == 'Windows':
         # Check if Derail Valley is running.
         # If it is, require the user to actively awknowledge this might break saves.
